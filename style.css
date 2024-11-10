@@ -1,0 +1,233 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+body{
+  background: linear-gradient(45deg, black, rgb(31, 40, 49));
+}
+header h4 {
+  color: rgb(222, 59, 59);
+}
+.player {
+  /* background-color: #080225; */
+  max-width: 723px;
+  margin: 0 auto;
+  text-align: center;
+  /* height: 720px; */
+  /* position: relative; */
+}
+.player .dashboard {
+  position: fixed;
+  border-radius: 15px;
+  max-width: 723px;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.55);  /* dùng làm mờ  */
+  backdrop-filter: blur(10px); /* ----------------------------------------------------------------------------------------------------- chú ý phần này vì backdrop-filter là property mới*/
+  padding: 12px 8px;
+  z-index: 1000; /* để đảm bảo nó nằm trên các phần tử khác */
+}
+.dashboard .cd {
+  /* background-color: #f5f5f5; */
+  /* height: 200px; */
+  margin: 10px auto 14px;
+  /* display: block; */
+  width: 200px;
+}
+
+.dashboard .cd .cd-thumb {
+  background: center / cover no-repeat;
+  padding-top: 100%;
+  border-radius: 100%;
+  transition: rotate linear 0.2s;
+  will-change: rotate;
+  background-image: url('./image/dark-fantasy-ai-not-your-typical-dark-fantasy-ai-v0-6ks8iepbe9dc1.webp');
+}
+.control {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.control .btn {
+  border-radius: 100%;
+  opacity: 0.6;
+}
+.control .btn:hover {
+  background-color: #c1c1c1;
+  
+}
+.btn-box {
+  position: relative;
+}
+.btn {
+  --size: 48px;
+  width: var(--size);
+  height: var(--size);
+  text-align: center;
+  line-height: var(--size);
+  border-radius: 100px;
+  cursor: pointer;
+}
+.volume-box {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(calc(-50% + 1px));
+  width: 48px;
+  height: 46px;
+  line-height: 48px;
+  text-align: center;
+  opacity: 0.6;
+  /* --fadeIn-from: 0;
+  --fadeIn-to: 0.5; */
+  /* animation: fadeIn ease-in 0.2s; */
+}
+.icon-volumn:hover {
+  border-radius: 100%;
+  background-color: #c1c1c1;
+  z-index: 5;
+}
+
+.volume {
+  width: 60px !important;
+  margin: 0;
+  rotate: -90deg;
+  position: absolute;
+  z-index: 1;
+  top: -74px;
+  left: -6.4px;
+  transform: translateX(-50%);
+  display: none;
+  animation: fadeIn ease-in 0.2s;
+}
+.volume-box:hover .volume {
+  display: block;
+}
+
+.control .btn-toggle-play {
+  font-size: 1.5rem;
+  background-color: red;
+  opacity: 1;
+  color: white;
+}
+.control .btn-toggle-play:hover {
+  background-color: rgb(255, 190, 190);
+  color: red;
+}
+.player .icon-pause {
+  display: none;
+}
+.player.playing .icon-pause {
+  display: inline-block;
+}
+.player.playing .icon-play {
+  display: none;
+}
+/* .control .icon-play {
+  
+} */
+
+.volume, .progress {
+    width: 100%;
+    appearance: none;
+    background-color: #d3d3d3;
+    height: 6px;
+    outline: none;
+    opacity: 0.8;
+    transition: opacity linear 0.2s;
+    accent-color: var(--primary-color);
+    transition: background .3s ease-in-out;
+    cursor: pointer;
+    margin: 10px 0 0;
+}
+
+.player .playlist{
+  border-radius: 7px;
+  padding: 20px 10px 50px 10px;
+  background: rgba(0, 0, 0, 0);
+  /* max-width: 723px; */
+  margin: 360px 12px 166px;
+}
+
+.player .playlist .song {
+    margin-top: 12px;
+    padding: 10px 16px;
+    background-color: white;
+    display: flex;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.song .thumb {
+  
+  background: center / cover no-repeat;
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
+  border-radius: 100%;
+}
+
+.song .body {
+  display: flex;
+  /* flex: 1; ko hiểu */
+  text-align: left;
+}
+
+.title {
+  font-size: 26px;
+  color: var(--text-color);
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+.author {
+  font-size: 18px;
+  color: #848484;
+  font-weight: 100;
+  letter-spacing: 0.4px;
+}
+.icon-dot {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  font-size: 20px;
+  opacity: 0.4;
+  /* color: #ccc; */
+}
+
+.remove{
+  display: none;
+}
+/* .active {
+
+} */ 
+
+
+.footer {
+  margin: 10px 10px 0px 10px;
+  /* padding-bottom: 100px; */
+  min-height: 100%;
+  background-color: rgba(255, 235, 235, 0.7);  /* dùng làm mờ  */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.footer i {
+  display: inline-block;
+  /* height: 50px; */
+  line-height: 100px; /*  dùng line-height để căn dọc */
+  font-size:large;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: rgb(10, 1, 1);
+  backdrop-filter: blur(100px);
+}
