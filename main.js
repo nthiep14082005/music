@@ -26,7 +26,7 @@
     const prevBtn = $('.btn-prev')
     const randomBtn = $('.btn-random')
     const repeatBtn = $('.btn-repeat')
-    const clicksong = $('.song')
+    const clickSongBtn = $('.song')
     const remove =$('.remove')
     
     const playlist = $('.playlist');
@@ -270,10 +270,14 @@
                 if(e.target.closest('.song:not(.active)') || e.target.closest('.option')){ //Khi sử dụng closest('.song:not(.active)'), nếu nhấn vào bất kỳ phần tử nào bên trong một phần tử có lớp song (mà không có lớp active), thì phương thức closest sẽ tìm và trả về phần tử cha gần nhất với lớp song. cụ thể ở đây là class .song
                     // .song:not('.active') là css selector nó sẽ chọn phần tử có class song nhưng ko có class active
                     // xử lý khi click vào song 
+                    // console.log(e.target)
+                    // console.log(e.target.dataset.index)
+                    // console.log(e.target.getAttribute('data-index'))
                     if(clickSong){
+                        console.log(e.target)
                         console.log(e.target.getAttribute('data-index'))// tương tự e.target.dataset.index nhưng nên dùng kiểu dataset.index hơn
                         // -> ban đầu nó là số nhưng khi getAttribute hay dataset.index thì sẽ trở thành chuỗi 
-                        _this.currentIndex = Number(e.target.dataset.index);  // -> nên cần convert sang Number
+                        _this.currentIndex = Number(clickSong.dataset.index);  // -> nên cần convert sang Number
                         _this.loadCurrentSong();
                         _this.render();
                         audio.play();
