@@ -13,6 +13,8 @@
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
     
+    const PLAYER_STORAGE_KEY = 'MUSIC'
+
     const player = $('.player')
     const cd = $('.cd')
     const heading = $('header h2')
@@ -24,14 +26,24 @@
     const prevBtn = $('.btn-prev')
     const randomBtn = $('.btn-random')
     const repeatBtn = $('.btn-repeat')
+    const clicksong = $('.song')
+    const remove =$('.remove')
     
-    const playlist = $('playlist');
+    const playlist = $('.playlist');
+    
     
     const app = {
         isPlaying: false,
         isRandom: false,
         isRepeat: false,
-        currentIndex: 5,
+        isOption: false,
+        config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {}, // -> tại sao nên cấu hình 
+        currentIndex: 0,
+        // localStorage là một đối tượng có sẵn trong JavaScript, được cung cấp bởi Web Storage API. Nó cho phép bạn lưu trữ dữ liệu dạng key-value (cặp khóa-giá trị) trên trình duyệt của người dùng mà không có thời gian hết hạn.
+        setConfig: function(key,value){
+            this.config[key] = value;
+            localStorage.setItem(PLAYER_STORAGE_KEY,this.config);
+        },
         songs: [
             {
                 name: 'Dark fantasy',
@@ -97,14 +109,17 @@
         render: function() {
             const htmls = this.songs.map((song,index) => /* function(song) */ { // this ở đây là các phần tử bên trong app mà .songs tức là this ở đây là app.songs
                 return `
-                    <div class="song ${index === this.currentIndex ? 'active' : ''}" id="0">
+                    <div class="song ${index === this.currentIndex ? 'active' : ''}" data-index="${index}">
                         <div class="thumb" style="background-image: url('${song.image}')"></div>
                             <div class="body">
                                 <h3 class="title">${song.name}
                                     <p class="author">${song.singer}</p>
                                 </h3>
                             </div>
-                        <div class="fa-solid fa-ellipsis icon-dot"></div>
+                        <div class="option">
+                            <i class="fa-solid fa-ellipsis icon-dot"></i>
+                            <div class="remove">Remove music</div>
+                        </div>
                     </div>
                 `;
             })
@@ -171,11 +186,11 @@
                 const seekTime = (audio.duration * e.target.value) / 100;
                 audio.currentTime = seekTime;
             }
-            // xử lý cd quay và dừng
+            // xử lý cd quay và dừng ------------------------------------------------------------------------------------------------------------------------------
             const cdThumbAnimate = cdThumb.animate ([ // phương thức animate nhận 2 đối số , t1 là mảng , và thứ 2 là 
                 { transform: 'rotate(360deg)'}
             ],{
-                duration: 10, // 10 second
+                duration: 50000, // 10 second
                 iterations: Infinity
             })
             cdThumbAnimate.pause()
@@ -246,10 +261,45 @@
                     nextBtn.click(); // nó tương tự như khi ta sử dụng onclick nhưng có điều là click tự động
                 }
             }
+
+            // xử lý khi click bài hát khác 
+            playlist.onclick = function(e){ //////////////////////////////////------------ target dùng để tham chiếu đến phần tử thực tế khi người dùng ấn vào
+                const clickSong = e.target.closest('.song:not(.active)')
+                const clickOption = e.target.closest('.option')
+                const removeBtn = e.target.closest('.remove')
+                if(e.target.closest('.song:not(.active)') || e.target.closest('.option')){ //Khi sử dụng closest('.song:not(.active)'), nếu nhấn vào bất kỳ phần tử nào bên trong một phần tử có lớp song (mà không có lớp active), thì phương thức closest sẽ tìm và trả về phần tử cha gần nhất với lớp song. cụ thể ở đây là class .song
+                    // .song:not('.active') là css selector nó sẽ chọn phần tử có class song nhưng ko có class active
+                    // xử lý khi click vào song 
+                    if(clickSong){
+                        console.log(e.target.getAttribute('data-index'))// tương tự e.target.dataset.index nhưng nên dùng kiểu dataset.index hơn
+                        // -> ban đầu nó là số nhưng khi getAttribute hay dataset.index thì sẽ trở thành chuỗi 
+                        _this.currentIndex = Number(e.target.dataset.index);  // -> nên cần convert sang Number
+                        _this.loadCurrentSong();
+                        _this.render();
+                        audio.play();
+                    }
+                    // xử lý khi click vào option
+                    // if(clickOption){
+                        // playlist.onclick = function (e){
+                        //     _this.isOption = !_this.isOption;
+                        //     remove.classList.toggle('music', _this.isOption);
+                        // }
+                    // }
+                }
+                // xử lý khi chỉnh volumn 
+                
+            }
         },
         scrollToActiveSong: function(){
-            
+            setTimeout(()=> {
+                $('.song.active').scrollIntoView({ // method tự tìm hiểu
+                    behavior: 'smooth',
+                    block: 'end' 
+                });
+            },500) // 500 mili giây
         },
+        // clickToNextSong: function(){
+        // },
         loadCurrentSong: function(){ // vậy tức là this ở đây là lấy về danh sách những giá trị bên trong currentSong, cụ thể ở đây this chính là app
             // console.log(heading,cdThumb,audio)
             heading.textContent = this.currentSong.name
@@ -293,5 +343,5 @@
             this.render();
         }
     }
-    app.start();
+    app.start(); //
     
