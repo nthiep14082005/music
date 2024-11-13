@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "deploy": "yarn build && gh-pages -d build"
+  },
+  "dependencies": {
+    "gh-pages": "^6.2.0"
+  }
+}

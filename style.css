@@ -133,10 +133,19 @@ header h4 {
 .player.playing .icon-play {
   display: none;
 }
+.player .btn-random.active {
+  color: red;
+  opacity: 1;
+}
+.player .btn-repeat.active{
+  color: red;
+  opacity: 1;
+}
+
 /* .control .icon-play {
   
 } */
-
+ 
 .volume, .progress {
     width: 100%;
     appearance: none;
@@ -146,7 +155,7 @@ header h4 {
     opacity: 0.8;
     transition: opacity linear 0.2s;
     accent-color: var(--primary-color);
-    transition: background .3s ease-in-out;
+    transition: .3s ease-in-out;
     cursor: pointer;
     margin: 10px 0 0;
 }
@@ -167,6 +176,20 @@ header h4 {
     border-radius: 10px;
     cursor: pointer;
     position: relative;
+}
+.playlist .active {
+  background-color: rgb(5, 69, 112) !important; 
+  /* z-index: 10000000000000000000000; */
+}
+.playlist .song.active .title {
+  color: white;
+  opacity: 1;
+}
+
+.playlist .song.active .author,
+.playlist .song.active .icon-dot {
+  color: white;
+  opacity: 0.8;
 }
 
 .song .thumb {
